@@ -1,0 +1,17 @@
+# Arquivos gerados pelo Maven (compilados)
+target/
+
+# Arquivos do Google Drive e do Windows
+desktop.ini
+Thumbs.db
+
+# Arquivos de IDE
+nbactions.xml
+nb-configuration.xml
+.idea/
+.vscode/
+
+# Arquivos compilados e pacotes
+*.class
+*.jar
+*.log
