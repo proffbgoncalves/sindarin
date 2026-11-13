@@ -1,7 +1,7 @@
 # Compilador Sindarin → Arduino Mega 2560
 
 Trabalho prático de Compiladores, IFF, prof. Fabrício.
-Dupla: **Amanda** (`amandamoraes19`) e **Artur** (`potentus-pixel`).
+Dupla: **Amanda** (`amandamoraes19`) e **Arthur** (`potentus-pixel`).
 
 O compilador lê programas escritos em Sindarin e gera código Arduino C++ para o Arduino Mega 2560.
 Ele usa Java, Maven e ANTLR 4.
