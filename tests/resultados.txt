@@ -1,0 +1,327 @@
+[PASSOU] tests\1-lexer\invalidos\01-binario-invalido.sind
+    etapa    : lexer
+    objetivo : 0b102 não pode virar 0b10 e 2: o candidato inteiro é rejeitado
+    esperado : ERRO-LEXICO 7:23
+    observado: ERRO-LEXICO 7:23  (numeral inválido '0b102': '2' não é dígito binário (use apenas 0 e 1))
+[PASSOU] tests\1-lexer\invalidos\02-hex-invalido.sind
+    etapa    : lexer
+    objetivo : 0xFG: G não é dígito hexadecimal
+    esperado : ERRO-LEXICO 7:23
+    observado: ERRO-LEXICO 7:23  (numeral inválido '0xFG': 'G' não é dígito hexadecimal (use 0-9 e A-F))
+[PASSOU] tests\1-lexer\invalidos\03-hex-sem-digitos.sind
+    etapa    : lexer
+    objetivo : 0x sem dígitos depois do prefixo
+    esperado : ERRO-LEXICO 7:23
+    observado: ERRO-LEXICO 7:23  (numeral inválido '0x': prefixo hexadecimal '0x' sem dígitos)
+[PASSOU] tests\1-lexer\invalidos\04-zero-a-esquerda.sind
+    etapa    : lexer
+    objetivo : 007: decimal com zero à esquerda é proibido (não vira 0 0 7)
+    esperado : ERRO-LEXICO 7:23
+    observado: ERRO-LEXICO 7:23  (numeral inválido '007': inteiros e parte inteira de reais não aceitam zeros à esquerda (escreva 7, não 007))
+[PASSOU] tests\1-lexer\invalidos\05-dois-pontos-decimais.sind
+    etapa    : lexer
+    objetivo : 1.2.3 é um candidato único e inválido (não vira 1.2 e .3)
+    esperado : ERRO-LEXICO 7:17
+    observado: ERRO-LEXICO 7:17  (numeral inválido '1.2.3': contém mais de um ponto decimal)
+[PASSOU] tests\1-lexer\invalidos\06-comeca-com-digito.sind
+    etapa    : lexer
+    objetivo : 2contador não vira número + identificador: é candidato numérico inválido
+    esperado : ERRO-LEXICO 7:15
+    observado: ERRO-LEXICO 7:15  (numeral inválido '2contador': sequência iniciada por dígito não é numeral nem identificador (identificadores não começam por dígito))
+[PASSOU] tests\1-lexer\invalidos\07-string-sem-fechar.sind
+    etapa    : lexer
+    objetivo : String sem aspas de fechamento
+    esperado : ERRO-LEXICO 7:15
+    observado: ERRO-LEXICO 7:15  (string sem aspas de fechamento (strings não podem ter quebra de linha))
+[PASSOU] tests\1-lexer\invalidos\08-escape-inexistente.sind
+    etapa    : lexer
+    objetivo : Escape \q não existe; o erro aponta a barra invertida
+    esperado : ERRO-LEXICO 7:19
+    observado: ERRO-LEXICO 7:19  (escape inexistente '\q' (os escapes permitidos são \n, \r, \t, \" e \\))
+[PASSOU] tests\1-lexer\invalidos\09-comentario-sem-fim.sind
+    etapa    : lexer
+    objetivo : Comentário de bloco não fechado vai até o fim do arquivo
+    esperado : ERRO-LEXICO 7:5
+    observado: ERRO-LEXICO 7:5  (comentário de bloco não fechado: falta '*/' antes do fim do arquivo)
+[PASSOU] tests\1-lexer\invalidos\10-caractere-invalido.sind
+    etapa    : lexer
+    objetivo : @ não pertence a nenhum token; diagnóstico aponta só o caractere
+    esperado : ERRO-LEXICO 7:23
+    observado: ERRO-LEXICO 7:23  (caractere inválido '@' (U+0040): não pertence a nenhum token da linguagem)
+[PASSOU] tests\1-lexer\invalidos\11-expoente-sem-digito.sind
+    etapa    : lexer
+    objetivo : 1e+ (expoente sem dígitos) é candidato inválido; o sinal faz parte do candidato
+    esperado : ERRO-LEXICO 7:17
+    observado: ERRO-LEXICO 7:17  (numeral inválido '1e+': o expoente precisa de pelo menos um dígito (ex.: 1e3 ou 2.5e-2))
+[PASSOU] tests\1-lexer\invalidos\12-prefixo-maiusculo.sind
+    etapa    : lexer
+    objetivo : 0XFF: os prefixos 0x/0b devem ser minúsculos
+    esperado : ERRO-LEXICO 7:23
+    observado: ERRO-LEXICO 7:23  (numeral inválido '0XFF': os prefixos de base devem ser minúsculos (0x ou 0b))
+[PASSOU] tests\1-lexer\invalidos\13-ponto-inicial.sind
+    etapa    : lexer
+    objetivo : .5 é inválido: o "." isolado não é token
+    esperado : ERRO-LEXICO 7:17
+    observado: ERRO-LEXICO 7:17  (caractere inválido '.' (U+002E): não pertence a nenhum token da linguagem)
+[PASSOU] tests\1-lexer\invalidos\14-ponto-final.sind
+    etapa    : lexer
+    objetivo : 5. é candidato numérico inválido
+    esperado : ERRO-LEXICO 7:17
+    observado: ERRO-LEXICO 7:17  (numeral inválido '5.': o ponto decimal exige dígitos dos dois lados (1.0 é válido; 5. e .5 não))
+[PASSOU] tests\1-lexer\invalidos\15-espaco-nao-ascii.sind
+    etapa    : lexer
+    objetivo : Espaço NO-BREAK (U+00A0) não é espaço ignorável
+    esperado : ERRO-LEXICO 7:14
+    observado: ERRO-LEXICO 7:14  (caractere inválido U+00A0 NO-BREAK SPACE: não pertence a nenhum token da linguagem)
+[PASSOU] tests\1-lexer\invalidos\16-sublinhado-duplo.sind
+    etapa    : lexer
+    objetivo : Nomes iniciados por __ são reservados para a implementação
+    esperado : ERRO-LEXICO 7:15
+    observado: ERRO-LEXICO 7:15  (identificador '__x' inválido: nomes iniciados por dois sublinhados são reservados para a implementação)
+[PASSOU] tests\1-lexer\invalidos\17-exclamacao-solta.sind
+    etapa    : lexer
+    objetivo : "!" sozinho não é token (só existe !=); o erro aponta só o "!"
+    esperado : ERRO-LEXICO 7:19
+    observado: ERRO-LEXICO 7:19  (caractere inválido '!' (U+0021): não pertence a nenhum token da linguagem)
+[PASSOU] tests\1-lexer\invalidos\18-aspas-simples.sind
+    etapa    : lexer
+    objetivo : Não existem literais de caractere com aspas simples
+    esperado : ERRO-LEXICO 7:15
+    observado: ERRO-LEXICO 7:15  (caractere inválido ''' (U+0027): não pertence a nenhum token da linguagem)
+[PASSOU] tests\1-lexer\invalidos\19-nul-em-string.sind
+    etapa    : lexer
+    objetivo : U+0000 dentro de string é rejeitado na análise léxica
+    esperado : ERRO-LEXICO 7:17
+    observado: ERRO-LEXICO 7:17  (string contém o caractere U+0000, que é proibido em literais)
+[PASSOU] tests\1-lexer\invalidos\20-quebra-de-linha-na-string.sind
+    etapa    : lexer
+    objetivo : Quebra de linha física dentro de string: erro apontado no início da string
+    esperado : ERRO-LEXICO 7:15
+    observado: ERRO-LEXICO 7:15  (string sem aspas de fechamento (strings não podem ter quebra de linha))
+[PASSOU] tests\1-lexer\invalidos\21-quebra-cr-isolado.sind
+    etapa    : lexer
+    objetivo : CR isolado conta como quebra de linha (o @ está na linha 5, coluna 5)
+    esperado : ERRO-LEXICO 5:5
+    observado: ERRO-LEXICO 5:5  (caractere inválido '@' (U+0040): não pertence a nenhum token da linguagem)
+[PASSOU] tests\1-lexer\invalidos\22-quebra-crlf.sind
+    etapa    : lexer
+    objetivo : CRLF conta como UMA quebra de linha (o @ está na linha 5, coluna 5)
+    esperado : ERRO-LEXICO 5:5
+    observado: ERRO-LEXICO 5:5  (caractere inválido '@' (U+0040): não pertence a nenhum token da linguagem)
+[PASSOU] tests\1-lexer\validos\01-acentos-nfc.sind
+    etapa    : lexer
+    objetivo : Palavras reservadas acentuadas em NFC (û_maer, hí, aur_dîn, dûn_min, rhûn_min, û, û_min) viram os tokens certos
+    esperado : OK tokens=FALSE MILLIS DELAY SHIFT_LEFT SHIFT_RIGHT NOT BIT_NOT
+    observado: OK tokens=FALSE MILLIS DELAY SHIFT_LEFT SHIFT_RIGHT NOT BIT_NOT
+[PASSOU] tests\1-lexer\validos\02-acentos-nfd.sind
+    etapa    : lexer
+    objetivo : As MESMAS palavras escritas em NFD (letra + acento combinante) são reclassificadas e dão os mesmos tokens
+    esperado : OK tokens=FALSE MILLIS DELAY SHIFT_LEFT SHIFT_RIGHT NOT BIT_NOT
+    observado: OK tokens=FALSE MILLIS DELAY SHIFT_LEFT SHIFT_RIGHT NOT BIT_NOT
+[PASSOU] tests\1-lexer\validos\03-aliases-ascii.sind
+    etapa    : lexer
+    objetivo : Aliases ASCII (u, hi, aur_din, dun_min, rhun_min) e vi/garo NÃO são reservadas: viram ID
+    esperado : OK tokens=ID ID ID ID ID ID ID
+    observado: OK tokens=ID ID ID ID ID ID ID
+[PASSOU] tests\1-lexer\validos\04-numerais.sind
+    etapa    : lexer
+    objetivo : Inteiros decimal/binário/hexadecimal, reais com expoente, 0xE+1 em três tokens e o sinal como operador separado
+    esperado : OK tokens=INT_LITERAL INT_LITERAL INT_LITERAL INT_LITERAL INT_LITERAL FLOAT_LITERAL FLOAT_LITERAL FLOAT_LITERAL FLOAT_LITERAL INT_LITERAL PLUS INT_LITERAL MINUS FLOAT_LITERAL
+    observado: OK tokens=INT_LITERAL INT_LITERAL INT_LITERAL INT_LITERAL INT_LITERAL FLOAT_LITERAL FLOAT_LITERAL FLOAT_LITERAL FLOAT_LITERAL INT_LITERAL PLUS INT_LITERAL MINUS FLOAT_LITERAL
+[PASSOU] tests\1-lexer\validos\05-strings-e-comentarios.sind
+    etapa    : lexer
+    objetivo : Strings preservam // e /* */ como texto; aspas dentro de comentários não abrem string; escapes válidos
+    esperado : OK tokens=STRING_LITERAL STRING_LITERAL STRING_LITERAL STRING_LITERAL STRING_LITERAL
+    observado: OK tokens=STRING_LITERAL STRING_LITERAL STRING_LITERAL STRING_LITERAL STRING_LITERAL
+[PASSOU] tests\1-lexer\validos\06-identificadores-e-compostas.sind
+    etapa    : lexer
+    objetivo : Identificadores (inclusive com acento) e palavras compostas indivisíveis; maer_an1 é ID por ser mais longo
+    esperado : OK tokens=ID ID ID ID ID ID ID LOOP FOR DO ACTION DIGITAL_WRITE DIGITAL_PIN ANALOG_PIN
+    observado: OK tokens=ID ID ID ID ID ID ID LOOP FOR DO ACTION DIGITAL_WRITE DIGITAL_PIN ANALOG_PIN
+[PASSOU] tests\1-lexer\validos\07-operadores-delimitadores.sind
+    etapa    : lexer
+    objetivo : Todos os operadores e delimitadores, com == != <= >= reconhecidos como um token só
+    esperado : OK tokens=EQ NEQ LE GE LT GT ASSIGN PLUS MINUS STAR SLASH PERCENT LBRACE RBRACE LPAREN RPAREN LBRACK RBRACK SEMI COMMA COLON
+    observado: OK tokens=EQ NEQ LE GE LT GT ASSIGN PLUS MINUS STAR SLASH PERCENT LBRACE RBRACE LPAREN RPAREN LBRACK RBRACK SEMI COMMA COLON
+[PASSOU] tests\1-lexer\validos\08-bom-no-inicio.sind
+    etapa    : lexer
+    objetivo : Um BOM UTF-8 no início do arquivo é aceito e removido
+    esperado : OK tokens=HARDWARE IN LBRACE RBRACE
+    observado: OK tokens=HARDWARE IN LBRACE RBRACE
+[PASSOU] tests\1-lexer\validos\09-hardware-e-tipos.sind
+    etapa    : lexer
+    objetivo : Tipos, recursos e níveis: nedia_min<16>, aur<hí>, ceber_caro, nen_caro, calad/gwath
+    esperado : OK tokens=BYTE_TYPE LT INT_LITERAL GT TIME_TYPE LT MILLIS GT OUTPUT PWM_OUTPUT HIGH LOW LEVEL_TYPE BOOL_TYPE
+    observado: OK tokens=BYTE_TYPE LT INT_LITERAL GT TIME_TYPE LT MILLIS GT OUTPUT PWM_OUTPUT HIGH LOW LEVEL_TYPE BOOL_TYPE
+[PASSOU] tests\2-parser\invalidos\01-falta-ponto-e-virgula.sind
+    etapa    : parser
+    objetivo : Declaração sem ; (o erro aparece no token seguinte, o })
+    esperado : ERRO-SINTATICO 8:1
+    observado: ERRO-SINTATICO 8:1  (token inesperado '}'; esperado: ';' — dica: falta ';' ao fim do comando ou da declaração anterior)
+[PASSOU] tests\2-parser\invalidos\02-condicao-sem-bloco.sind
+    etapa    : parser
+    objetivo : Corpo de maer_an precisa de mi e chaves
+    esperado : ERRO-SINTATICO 7:18
+    observado: ERRO-SINTATICO 7:18  (token inesperado 'caro'; esperado: 'mi', 'an')
+[PASSOU] tests\2-parser\invalidos\03-cor-pad-falta-separador.sind
+    etapa    : parser
+    objetivo : cor_pad (; maer) mi {} : falta o segundo ;
+    esperado : ERRO-SINTATICO 7:20
+    observado: ERRO-SINTATICO 7:20  (token inesperado ')'; esperado: ';')
+[PASSOU] tests\2-parser\invalidos\04-cor-caro-sem-ponto-e-virgula.sind
+    etapa    : parser
+    objetivo : cor_caro ... cor_maer û_maer : falta o ; depois da condição final
+    esperado : ERRO-SINTATICO 8:1
+    observado: ERRO-SINTATICO 8:1  (token inesperado '}'; esperado: ';' — dica: falta ';' ao fim do comando ou da declaração anterior)
+[PASSOU] tests\2-parser\invalidos\05-methed-com-parenteses.sind
+    etapa    : parser
+    objetivo : methed não recebe parênteses nem argumentos
+    esperado : ERRO-SINTATICO 7:11
+    observado: ERRO-SINTATICO 7:11  (token inesperado '('; esperado: ';')
+[PASSOU] tests\2-parser\invalidos\06-operador-sem-operando.sind
+    etapa    : parser
+    objetivo : Operador + sem operando à direita
+    esperado : ERRO-SINTATICO 7:27
+    observado: ERRO-SINTATICO 7:27  (token inesperado ';'; esperado: 'nedia', 'nedia_min', 'aur', 'nen', 'maer', 'û_maer', 'calad', 'gwath', ... (25 possibilidades), um operador)
+[PASSOU] tests\2-parser\invalidos\07-local-sem-inicializador.sind
+    etapa    : parser
+    objetivo : Declaração local exige inicializador
+    esperado : ERRO-SINTATICO 7:20
+    observado: ERRO-SINTATICO 7:20  (token inesperado ';'; esperado: '=')
+[PASSOU] tests\2-parser\invalidos\08-caro-com-atribuicao.sind
+    etapa    : parser
+    objetivo : caro não introduz atribuição
+    esperado : ERRO-SINTATICO 7:16
+    observado: ERRO-SINTATICO 7:16  (token inesperado '='; esperado: '(')
+[PASSOU] tests\2-parser\invalidos\09-parentese-aberto.sind
+    etapa    : parser
+    objetivo : Parêntese aberto e não fechado
+    esperado : ERRO-SINTATICO 7:29
+    observado: ERRO-SINTATICO 7:29  (token inesperado ';'; esperado: ')')
+[PASSOU] tests\2-parser\invalidos\10-escrita-pwm-ordem-errada.sind
+    etapa    : parser
+    objetivo : Escrita PWM fora da ordem normativa: caro an recurso caro_nen valor;
+    esperado : ERRO-SINTATICO 7:10
+    observado: ERRO-SINTATICO 7:10  (token inesperado 'caro_nen'; esperado: 'an', 'aur_dîn', 'pedo', 'pedo_meth', 'pedo_min', identificador)
+[PASSOU] tests\2-parser\invalidos\11-else-sem-mi.sind
+    etapa    : parser
+    objetivo : egor_mi também exige mi antes de {
+    esperado : ERRO-SINTATICO 7:32
+    observado: ERRO-SINTATICO 7:32  (token inesperado '{'; esperado: 'mi' — dica: todo bloco é introduzido por 'mi' imediatamente antes de '{')
+[PASSOU] tests\2-parser\invalidos\12-selecao-sem-caso.sind
+    etapa    : parser
+    objetivo : curu_egor exige pelo menos um curu_min
+    esperado : ERRO-SINTATICO 7:21
+    observado: ERRO-SINTATICO 7:21  (token inesperado '}'; esperado: 'curu_min')
+[PASSOU] tests\2-parser\invalidos\13-comparacao-encadeada.sind
+    etapa    : parser
+    objetivo : Comparações não encadeiam: 1 < 2 < 3 é erro sintático
+    esperado : ERRO-SINTATICO 7:25
+    observado: ERRO-SINTATICO 7:25  (token inesperado '<'; esperado: ';')
+[PASSOU] tests\2-parser\invalidos\14-atribuicao-encadeada.sind
+    etapa    : parser
+    objetivo : Atribuição é comando, não expressão: x = y = 1; é erro
+    esperado : ERRO-SINTATICO 7:11
+    observado: ERRO-SINTATICO 7:11  (token inesperado '='; esperado: ';')
+[PASSOU] tests\2-parser\invalidos\15-atribuicao-em-condicao.sind
+    etapa    : parser
+    objetivo : maer_an (x = 1) mi {} : atribuição não é expressão
+    esperado : ERRO-SINTATICO 7:16
+    observado: ERRO-SINTATICO 7:16  (token inesperado '='; esperado: ')')
+[PASSOU] tests\2-parser\invalidos\16-chamada-sem-caro.sind
+    etapa    : parser
+    objetivo : mostrar(5); sem caro é erro sintático
+    esperado : ERRO-SINTATICO 7:12
+    observado: ERRO-SINTATICO 7:12  (token inesperado '('; esperado: '=', '[')
+[PASSOU] tests\2-parser\invalidos\17-caro-com-parenteses.sind
+    etapa    : parser
+    objetivo : caro (mostrar(3)); : parênteses envolvendo toda a ação
+    esperado : ERRO-SINTATICO 7:10
+    observado: ERRO-SINTATICO 7:10  (token inesperado '('; esperado: 'an', 'aur_dîn', 'pedo', 'pedo_meth', 'pedo_min', identificador)
+[PASSOU] tests\2-parser\invalidos\18-laco-sem-mi.sind
+    etapa    : parser
+    objetivo : cor_maer sem mi antes da chave
+    esperado : ERRO-SINTATICO 7:19
+    observado: ERRO-SINTATICO 7:19  (token inesperado '{'; esperado: 'mi' — dica: todo bloco é introduzido por 'mi' imediatamente antes de '{')
+[PASSOU] tests\2-parser\invalidos\19-caso-sem-mi.sind
+    etapa    : parser
+    objetivo : curu_min sem mi antes da chave
+    esperado : ERRO-SINTATICO 8:20
+    observado: ERRO-SINTATICO 8:20  (token inesperado '{'; esperado: 'mi' — dica: todo bloco é introduzido por 'mi' imediatamente antes de '{')
+[PASSOU] tests\2-parser\invalidos\20-sem-minui.sind
+    etapa    : parser
+    objetivo : Arquivo sem o bloco minui (gwaith mi {} cor mi {})
+    esperado : ERRO-SINTATICO 4:14
+    observado: ERRO-SINTATICO 4:14  (token inesperado 'cor'; esperado: 'minui', 'sador', 'curu', 'nedia', 'nedia_min', 'maer_peth', 'calad_gwath', 'aur', ... (13 possibilidades))
+[PASSOU] tests\2-parser\invalidos\21-minui-sem-mi.sind
+    etapa    : parser
+    objetivo : minui {} : falta o marcador mi
+    esperado : ERRO-SINTATICO 4:20
+    observado: ERRO-SINTATICO 4:20  (token inesperado '{'; esperado: 'mi' — dica: todo bloco é introduzido por 'mi' imediatamente antes de '{')
+[PASSOU] tests\2-parser\invalidos\22-mi-fora-de-posicao.sind
+    etapa    : parser
+    objetivo : mi minui {} : marcador mi antes do cabeçalho
+    esperado : ERRO-SINTATICO 4:14
+    observado: ERRO-SINTATICO 4:14  (token inesperado 'mi'; esperado: 'minui', 'sador', 'curu', 'nedia', 'nedia_min', 'maer_peth', 'calad_gwath', 'aur', ... (13 possibilidades) — dica: 'mi' só pode aparecer imediatamente antes de '{', depois do cabeçalho completo)
+[PASSOU] tests\2-parser\invalidos\23-funcao-sem-mi.sind
+    etapa    : parser
+    objetivo : Função sem mi antes do corpo
+    esperado : ERRO-SINTATICO 5:20
+    observado: ERRO-SINTATICO 5:20  (token inesperado '{'; esperado: 'mi' — dica: todo bloco é introduzido por 'mi' imediatamente antes de '{')
+[PASSOU] tests\2-parser\invalidos\24-tokens-apos-cor.sind
+    etapa    : parser
+    objetivo : Tokens depois do fechamento de cor: o EOF é obrigatório
+    esperado : ERRO-SINTATICO 5:1
+    observado: ERRO-SINTATICO 5:1  (token inesperado 'nedia_min'; esperado: fim do arquivo)
+[PASSOU] tests\2-parser\invalidos\25-ordem-dos-blocos.sind
+    etapa    : parser
+    objetivo : Blocos fora de ordem (cor antes de minui)
+    esperado : ERRO-SINTATICO 4:14
+    observado: ERRO-SINTATICO 4:14  (token inesperado 'cor'; esperado: 'minui', 'sador', 'curu', 'nedia', 'nedia_min', 'maer_peth', 'calad_gwath', 'aur', ... (13 possibilidades))
+[PASSOU] tests\2-parser\invalidos\26-erro-lexico-antes-do-parser.sind
+    etapa    : parser
+    objetivo : Erro léxico impede a etapa sintática: reporta só o erro léxico, sem cascata
+    esperado : ERRO-LEXICO 7:23
+    observado: ERRO-LEXICO 7:23  (numeral inválido '0b102': '2' não é dígito binário (use apenas 0 e 1))
+[PASSOU] tests\2-parser\validos\01-minimo.sind
+    etapa    : parser
+    objetivo : Programa mínimo: os três blocos vazios
+    esperado : OK
+    observado: OK (12 tokens)
+[PASSOU] tests\2-parser\validos\02-ola-serial.sind
+    etapa    : parser
+    objetivo : Exemplo da seção 4: serial, impressão e espera de 1 segundo
+    esperado : OK
+    observado: OK (28 tokens)
+[PASSOU] tests\2-parser\validos\03-exemplo-completo-secao25.sind
+    etapa    : parser
+    objetivo : Programa completo da seção 25 do enunciado (recurso, constante, função, procedimento, vetor, cor_pad, seleção e as 4 repetições)
+    esperado : OK
+    observado: OK (198 tokens)
+[PASSOU] tests\2-parser\validos\04-recursos-pwm-presenca-secao19.sind
+    etapa    : parser
+    objetivo : Exemplo integrado da seção 19.2: recursos, parâmetro de capacidade, cen_calad/cen_nen, forma de presença (maer_an cen an x)
+    esperado : OK
+    observado: OK (127 tokens)
+[PASSOU] tests\2-parser\validos\05-ponto-flutuante-nen.sind
+    etapa    : parser
+    objetivo : nen: média (seção 6.1.4), literais reais, vetor de nen e conversões explícitas
+    esperado : OK
+    observado: OK (110 tokens)
+[PASSOU] tests\2-parser\validos\06-expressoes-bits-vetores.sind
+    etapa    : parser
+    objetivo : Precedência, unários, operações sobre bits, vetores, duração/instante, global adiado aur<hí>, conversões
+    esperado : OK
+    observado: OK (310 tokens)
+[PASSOU] tests\2-parser\validos\07-lacos-selecao-controle.sind
+    etapa    : parser
+    objetivo : As 4 repetições, cor_pad com partes vazias, methed/cor_minui, curu_egor com padrão, maer_an aninhado e forma de presença
+    esperado : OK
+    observado: OK (202 tokens)
+[PASSOU] tests\2-parser\validos\08-funcoes-e-chamadas.sind
+    etapa    : parser
+    objetivo : Funções, procedimentos, parâmetros de capacidade e vetoriais, retorno com/sem valor, chamadas com caro, em expressão e em cabeçalho de cor_pad
+    esperado : OK
+    observado: OK (228 tokens)
+
+RESUMO: 65 de 65 testes passaram.

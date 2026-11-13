@@ -1,0 +1,5 @@
+// @objetivo: As MESMAS palavras escritas em NFD (letra + acento combinante) são reclassificadas e dão os mesmos tokens
+// @etapa: lexer
+// @esperado: OK
+// @tokens: FALSE MILLIS DELAY SHIFT_LEFT SHIFT_RIGHT NOT BIT_NOT
+û_maer hí aur_dîn dûn_min rhûn_min û û_min

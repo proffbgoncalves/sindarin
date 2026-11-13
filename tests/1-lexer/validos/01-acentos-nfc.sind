@@ -1,0 +1,5 @@
+// @objetivo: Palavras reservadas acentuadas em NFC (û_maer, hí, aur_dîn, dûn_min, rhûn_min, û, û_min) viram os tokens certos
+// @etapa: lexer
+// @esperado: OK
+// @tokens: FALSE MILLIS DELAY SHIFT_LEFT SHIFT_RIGHT NOT BIT_NOT
+û_maer hí aur_dîn dûn_min rhûn_min û û_min

@@ -1,0 +1,11 @@
+// @objetivo: curu_min sem mi antes da chave
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 8:20
+gwaith mi {}
+minui mi {}
+cor mi {
+    curu_egor 1 mi {
+        curu_min 1 {
+        }
+    }
+}

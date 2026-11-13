@@ -1,0 +1,8 @@
+// @objetivo: 2contador não vira número + identificador: é candidato numérico inválido
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:15
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min 2contador = 1;
+}

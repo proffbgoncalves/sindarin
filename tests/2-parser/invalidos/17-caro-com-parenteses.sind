@@ -1,0 +1,8 @@
+// @objetivo: caro (mostrar(3)); : parênteses envolvendo toda a ação
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:10
+gwaith mi {}
+minui mi {}
+cor mi {
+    caro (mostrar(3));
+}

@@ -1,0 +1,8 @@
+// @objetivo: Atribuição é comando, não expressão: x = y = 1; é erro
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:11
+gwaith mi {}
+minui mi {}
+cor mi {
+    x = y = 1;
+}

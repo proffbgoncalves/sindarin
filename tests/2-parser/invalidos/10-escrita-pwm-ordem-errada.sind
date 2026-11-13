@@ -1,0 +1,8 @@
+// @objetivo: Escrita PWM fora da ordem normativa: caro an recurso caro_nen valor;
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:10
+gwaith mi {}
+minui mi {}
+cor mi {
+    caro caro_nen motor 128;
+}

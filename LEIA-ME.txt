@@ -1,0 +1,36 @@
+SINDARIN -> ARDUINO MEGA 2560  |  Etapas 1 e 2: Lexer e Parser (ANTLR 4 + Java)
+================================================================================
+
+O QUE TEM AQUI
+  grammar/SindarinLexer.g4    gramática léxica  (Etapa 1)
+  grammar/SindarinParser.g4   gramática sintática (Etapa 2)
+  src/sindarin/               código Java: leitura UTF-8, NFC, posições, erros, CLI, runner de testes
+  tests/                      65 testes (.sind) + tests/resultados.txt (saída da última execução)
+  exemplos/                   programas de exemplo
+  scripts/                    build/run/test (.sh para Linux/macOS, .bat para Windows)
+  RELATORIO.txt               explicação completa do que foi feito e das decisões tomadas
+
+REQUISITOS
+  - JDK 17 ou superior (precisa do javac, não só do java)       -> java -version / javac -version
+  - Internet na 1a vez (baixa o ANTLR 4.13.2 para lib/). Sem internet: baixe
+    antlr-4.13.2-complete.jar em https://www.antlr.org/download/ e use
+        ANTLR_JAR=/caminho/antlr-4.13.2-complete.jar   (variável de ambiente)
+
+COMO USAR (Linux/macOS)                      (Windows: troque ./scripts/X.sh por scripts\X.bat)
+  ./scripts/build.sh                                  gera lexer/parser e compila
+  ./scripts/run.sh tokens  exemplos/ola.sind          lista tokens com linha:coluna
+  ./scripts/run.sh parse   exemplos/ola.sind          imprime a árvore do parser (recuada)
+  ./scripts/run.sh parse   exemplos/ola.sind --lisp   árvore em forma LISP
+  ./scripts/run.sh check   exemplos/ola.sind          só diz OK ou mostra os erros
+  ./scripts/test.sh                                   roda os 65 testes e grava tests/resultados.txt
+
+CÓDIGOS DE SAÍDA
+  0 = sem erros | 1 = erro léxico ou sintático no programa | 2 = uso incorreto / erro de leitura
+
+ANTLR LAB (https://lab.antlr.org)
+  Cole SindarinLexer.g4 e SindarinParser.g4 (a gramática léxica NÃO tem ações Java, então roda
+  no Lab). Regra inicial: programa. Limitação: o Lab só usa a gramática; a reclassificação de
+  palavras em NFD é feita pelo código Java (SindarinLexerNfc) e não aparece no Lab.
+
+VERSÕES USADAS NOS TESTES
+  Ver RELATORIO.txt, seção 8.

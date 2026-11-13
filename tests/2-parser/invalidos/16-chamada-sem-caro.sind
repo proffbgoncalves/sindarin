@@ -1,0 +1,8 @@
+// @objetivo: mostrar(5); sem caro é erro sintático
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:12
+gwaith mi {}
+minui mi {}
+cor mi {
+    mostrar(5);
+}

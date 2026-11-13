@@ -1,0 +1,36 @@
+// @objetivo: As 4 repetições, cor_pad com partes vazias, methed/cor_minui, curu_egor com padrão, maer_an aninhado e forma de presença
+// @etapa: parser
+// @esperado: OK
+gwaith mi {
+    ceber_caro led = ceber(13) : gwath;
+}
+minui mi {
+    minui_peth 9600;
+}
+cor mi {
+    nedia contador = 0;
+    cor_pad (;;) mi {
+        methed;
+    }
+    cor_pad (nedia_min i = 0; i < 6; i = i + 1) mi {
+        maer_an i == 2 mi {
+            cor_minui;
+        }
+        maer_an i == 4 mi {
+            methed;
+        } egor_mi mi {
+            maer_an i > 10 mi { caro pedo_meth i; } egor_mi mi {}
+        }
+        caro pedo_meth i;
+    }
+    cor_pad (contador = 0; ; contador = contador + 1) mi { methed; }
+    cor_maer contador < 3 mi { contador = contador + 1; }
+    cor_caro mi { contador = contador - 1; } cor_maer contador > 0;
+    cor_nedia 3 mi { caro pedo "Ola"; }
+    curu_egor contador mi {
+        curu_min 1 mi { caro an led caro_calad calad; }
+        curu_min 2 mi { }
+        egor_mi mi { caro an led caro_calad gwath; }
+    }
+    maer_an cen an recebido mi { caro pedo_min recebido; } egor_mi mi {}
+}

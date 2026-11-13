@@ -1,0 +1,8 @@
+// @objetivo: Corpo de maer_an precisa de mi e chaves
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:18
+gwaith mi {}
+minui mi {}
+cor mi {
+    maer_an maer caro pedo_meth 1;
+}

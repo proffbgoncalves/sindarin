@@ -1,0 +1,8 @@
+// @objetivo: maer_an (x = 1) mi {} : atribuição não é expressão
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:16
+gwaith mi {}
+minui mi {}
+cor mi {
+    maer_an (1 = 1) mi {}
+}

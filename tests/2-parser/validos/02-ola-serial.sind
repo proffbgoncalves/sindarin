@@ -1,0 +1,11 @@
+// @objetivo: Exemplo da seção 4: serial, impressão e espera de 1 segundo
+// @etapa: parser
+// @esperado: OK
+gwaith mi {}
+minui mi {
+    minui_peth 9600;
+}
+cor mi {
+    caro pedo_meth "Ola";
+    caro aur_dîn aur(1, 1);
+}

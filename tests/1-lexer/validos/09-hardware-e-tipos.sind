@@ -1,0 +1,5 @@
+// @objetivo: Tipos, recursos e níveis: nedia_min<16>, aur<hí>, ceber_caro, nen_caro, calad/gwath
+// @etapa: lexer
+// @esperado: OK
+// @tokens: BYTE_TYPE LT INT_LITERAL GT TIME_TYPE LT MILLIS GT OUTPUT PWM_OUTPUT HIGH LOW LEVEL_TYPE BOOL_TYPE
+nedia_min<16> aur<hí> ceber_caro nen_caro calad gwath calad_gwath maer_peth

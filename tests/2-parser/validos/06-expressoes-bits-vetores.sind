@@ -1,0 +1,39 @@
+// @objetivo: Precedência, unários, operações sobre bits, vetores, duração/instante, global adiado aur<hí>, conversões
+// @etapa: parser
+// @esperado: OK
+gwaith mi {
+    ceber_cen botao = ceber(2);
+    nen_cen sensor = ceber_nen(0);
+}
+aur<hí> instanteInicial;
+sador [nedia_min; 3] primos = [2, 3, 5];
+nedia_min<16> limite = 1000;
+curu nedia_min<16> calcular(nedia_min<16> x1, nedia_min<16> y1) mi {
+    dandol x1 * 2 + y1 / 4 % 3 - 1;
+}
+minui mi {
+    minui_peth 9600;
+    instanteInicial = hí;
+}
+cor mi {
+    nedia contador = 10 + 5 * 2;
+    maer_peth ok = contador > 0 a contador < 20 egor û contador == 3;
+    ok = û ok;
+    nedia negativo = - -contador;
+    nedia_min mascara = a_min<8>(0xAC, 0x0F);
+    nedia_min junto = egor_min<8>(mascara, egor_pen<8>(0xAA, 0x0F));
+    nedia_min inv = û_min<8>(0x0F);
+    nedia_min esq = dûn_min<8>(1, 3);
+    nedia_min dir = rhûn_min<8>(0x80, 7);
+    [nedia_min; 3] valores = [10, 20, 30];
+    valores[0] = 15;
+    valores[contador - 8] = valores[1] + primos[2];
+    aur espera = aur(1, 2);
+    aur decorrido = hí - instanteInicial;
+    calad_gwath nivel = cen_calad botao;
+    nedia_min<16> amostra = cen_nen sensor;
+    nedia_min porcento = nedia_min(amostra / 4);
+    nen media = nen(contador) / 2.0;
+    caro pedo_meth valores[1];
+    caro aur_dîn espera;
+}

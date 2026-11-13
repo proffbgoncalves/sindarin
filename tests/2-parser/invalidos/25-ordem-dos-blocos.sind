@@ -1,0 +1,4 @@
+// @objetivo: Blocos fora de ordem (cor antes de minui)
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 4:14
+gwaith mi {} cor mi {} minui mi {}

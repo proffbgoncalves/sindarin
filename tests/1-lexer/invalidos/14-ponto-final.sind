@@ -1,0 +1,8 @@
+// @objetivo: 5. é candidato numérico inválido
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:17
+gwaith mi {}
+minui mi {}
+cor mi {
+    nen valor = 5.;
+}

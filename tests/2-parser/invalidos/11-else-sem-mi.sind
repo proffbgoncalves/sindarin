@@ -1,0 +1,8 @@
+// @objetivo: egor_mi também exige mi antes de {
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:32
+gwaith mi {}
+minui mi {}
+cor mi {
+    maer_an maer mi {} egor_mi {}
+}

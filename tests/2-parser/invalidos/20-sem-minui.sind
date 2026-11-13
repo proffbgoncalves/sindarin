@@ -1,0 +1,4 @@
+// @objetivo: Arquivo sem o bloco minui (gwaith mi {} cor mi {})
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 4:14
+gwaith mi {} cor mi {}

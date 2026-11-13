@@ -1,0 +1,8 @@
+// @objetivo: Comentário de bloco não fechado vai até o fim do arquivo
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:5
+gwaith mi {}
+minui mi {}
+cor mi {
+    /* comentario sem fim
+}

@@ -1,0 +1,8 @@
+// @objetivo: Nomes iniciados por __ são reservados para a implementação
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:15
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min __x = 1;
+}

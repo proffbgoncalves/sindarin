@@ -1,0 +1,27 @@
+// @objetivo: Exemplo integrado da seção 19.2: recursos, parâmetro de capacidade, cen_calad/cen_nen, forma de presença (maer_an cen an x)
+// @etapa: parser
+// @esperado: OK
+gwaith mi {
+    ceber_calad botao = ceber(2);
+    nen_cen sensor = ceber_nen(0);
+    nen_caro motor = ceber(3) : 0;
+}
+curu pen ajustar(nen_caro saida, nedia_min intensidade) mi {
+    caro an saida caro_nen intensidade;
+}
+minui mi {
+    minui_peth 9600;
+}
+cor mi {
+    nedia_min<16> leitura = cen_nen sensor;
+    nedia_min potencia = nedia_min(leitura / 4);
+    maer_an cen_calad botao == gwath mi {
+        caro ajustar(motor, potencia);
+    } egor_mi mi {
+        caro ajustar(motor, 0);
+    }
+    maer_an cen an recebido mi {
+        caro pedo_min recebido;
+    }
+    caro aur_dîn aur(1, 100);
+}

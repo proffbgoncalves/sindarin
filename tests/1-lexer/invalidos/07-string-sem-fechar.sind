@@ -1,0 +1,8 @@
+// @objetivo: String sem aspas de fechamento
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:15
+gwaith mi {}
+minui mi {}
+cor mi {
+    caro pedo "Ola;
+}

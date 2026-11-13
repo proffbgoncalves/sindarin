@@ -1,0 +1,8 @@
+// @objetivo: Não existem literais de caractere com aspas simples
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:15
+gwaith mi {}
+minui mi {}
+cor mi {
+    caro pedo 'a';
+}

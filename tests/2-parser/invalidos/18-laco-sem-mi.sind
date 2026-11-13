@@ -1,0 +1,9 @@
+// @objetivo: cor_maer sem mi antes da chave
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:19
+gwaith mi {}
+minui mi {}
+cor mi {
+    cor_maer maer {
+    }
+}

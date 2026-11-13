@@ -1,0 +1,5 @@
+// @objetivo: Inteiros decimal/binário/hexadecimal, reais com expoente, 0xE+1 em três tokens e o sinal como operador separado
+// @etapa: lexer
+// @esperado: OK
+// @tokens: INT_LITERAL INT_LITERAL INT_LITERAL INT_LITERAL INT_LITERAL FLOAT_LITERAL FLOAT_LITERAL FLOAT_LITERAL FLOAT_LITERAL INT_LITERAL PLUS INT_LITERAL MINUS FLOAT_LITERAL
+0 25 0b1010 0x0A 0xAC 1.5 1e3 2.5e-2 1e+2 0xE+1 -2.5

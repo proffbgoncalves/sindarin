@@ -1,0 +1,5 @@
+// @objetivo: Aliases ASCII (u, hi, aur_din, dun_min, rhun_min) e vi/garo NÃO são reservadas: viram ID
+// @etapa: lexer
+// @esperado: OK
+// @tokens: ID ID ID ID ID ID ID
+u hi aur_din dun_min rhun_min vi garo

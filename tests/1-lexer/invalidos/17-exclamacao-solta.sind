@@ -1,0 +1,8 @@
+// @objetivo: "!" sozinho não é token (só existe !=); o erro aponta só o "!"
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:19
+gwaith mi {}
+minui mi {}
+cor mi {
+    maer_peth b = !maer;
+}

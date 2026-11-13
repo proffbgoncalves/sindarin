@@ -1,0 +1,1 @@
+// @objetivo: CR isolado conta como quebra de linha (o @ está na linha 5, coluna 5)// @etapa: lexer// @esperado: ERRO-LEXICO 5:5nedia_min x = 1;    @

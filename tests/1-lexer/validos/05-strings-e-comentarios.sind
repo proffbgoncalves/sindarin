@@ -1,0 +1,8 @@
+// @objetivo: Strings preservam // e /* */ como texto; aspas dentro de comentários não abrem string; escapes válidos
+// @etapa: lexer
+// @esperado: OK
+// @tokens: STRING_LITERAL STRING_LITERAL STRING_LITERAL STRING_LITERAL STRING_LITERAL
+"Ola\n" "// nao e comentario" "/* nem isto */" "aspas \" e barra \\"
+// comentario de linha com "aspas soltas
+/* comentario de bloco com " aspas
+   em duas linhas */ "fim"

@@ -1,0 +1,8 @@
+// @objetivo: @ não pertence a nenhum token; diagnóstico aponta só o caractere
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:23
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = @;
+}

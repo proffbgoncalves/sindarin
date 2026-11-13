@@ -1,0 +1,5 @@
+﻿// @objetivo: Um BOM UTF-8 no início do arquivo é aceito e removido
+// @etapa: lexer
+// @esperado: OK
+// @tokens: HARDWARE IN LBRACE RBRACE
+gwaith mi {}

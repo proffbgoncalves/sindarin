@@ -1,0 +1,1 @@
+Adicione aqui uma copia de tests/resultados.txt, gerado pelos testes automatizados.

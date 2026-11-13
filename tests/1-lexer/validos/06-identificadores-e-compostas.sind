@@ -1,0 +1,5 @@
+// @objetivo: Identificadores (inclusive com acento) e palavras compostas indivisíveis; maer_an1 é ID por ser mais longo
+// @etapa: lexer
+// @esperado: OK
+// @tokens: ID ID ID ID ID ID ID LOOP FOR DO ACTION DIGITAL_WRITE DIGITAL_PIN ANALOG_PIN
+contador calma_1 instanteInicial corSensor _x ação maer_an1 cor cor_pad cor_caro caro caro_calad ceber ceber_nen

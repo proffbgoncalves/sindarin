@@ -1,0 +1,4 @@
+// @objetivo: minui {} : falta o marcador mi
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 4:20
+gwaith mi {} minui {} cor mi {}

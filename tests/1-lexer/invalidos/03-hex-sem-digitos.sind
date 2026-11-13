@@ -1,0 +1,8 @@
+// @objetivo: 0x sem dígitos depois do prefixo
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:23
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = 0x;
+}

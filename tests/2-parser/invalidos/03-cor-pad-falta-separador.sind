@@ -1,0 +1,8 @@
+// @objetivo: cor_pad (; maer) mi {} : falta o segundo ;
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:20
+gwaith mi {}
+minui mi {}
+cor mi {
+    cor_pad (; maer) mi {}
+}

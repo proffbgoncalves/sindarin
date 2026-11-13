@@ -1,0 +1,5 @@
+// @objetivo: Todos os operadores e delimitadores, com == != <= >= reconhecidos como um token só
+// @etapa: lexer
+// @esperado: OK
+// @tokens: EQ NEQ LE GE LT GT ASSIGN PLUS MINUS STAR SLASH PERCENT LBRACE RBRACE LPAREN RPAREN LBRACK RBRACK SEMI COMMA COLON
+== != <= >= < > = + - * / % { } ( ) [ ] ; , :

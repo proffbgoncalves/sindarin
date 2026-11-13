@@ -1,0 +1,8 @@
+// @objetivo: caro não introduz atribuição
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:16
+gwaith mi {}
+minui mi {}
+cor mi {
+    caro valor = 1;
+}

@@ -1,0 +1,335 @@
+================================================================================
+ COMPILADOR DE SINDARIN PARA ARDUINO MEGA 2560 - ENTREGA: LEXER E PARSER
+ Disciplina: Compiladores - IFF
+ Etapas do enunciado cobertas: 1 (análise léxica) e 2 (análise sintática)
+================================================================================
+
+SUMÁRIO
+  1. Resumo do que foi feito
+  2. Estrutura do projeto
+  3. Como gerar e executar
+  4. Etapa 1 - Lexer
+  5. Etapa 2 - Parser
+  6. Testes
+  7. Pontos de atenção (leiam antes de entregar)
+  8. Versões e ambiente
+  9. Próximas etapas
+
+--------------------------------------------------------------------------------
+1. RESUMO DO QUE FOI FEITO
+--------------------------------------------------------------------------------
+- Partimos do SindarinLexer.g4 que a dupla já tinha. As 59 palavras reservadas, os operadores
+  e os delimitadores foram MANTIDOS exatamente como estavam (conferi as 59 palavras e seus
+  nomes de token contra a tabela do PDF: nenhuma divergência).
+- O que faltava no lexer (seções 4 a 7 do arquivo estavam só com títulos) foi escrito:
+  literais inteiros, reais e strings; identificadores; espaços e comentários; e as regras
+  de erro léxico.
+- Foi escrita a gramática sintática completa (SindarinParser.g4), com a precedência exigida
+  na seção 9 do enunciado.
+- Foi escrito o código Java de apoio: leitura estrita de UTF-8, normalização NFC, cálculo de
+  linha/coluna, mensagens de erro em português, linha de comando e um executor de testes.
+- Foram escritos 65 testes; os 65 passam (tests/resultados.txt).
+
+--------------------------------------------------------------------------------
+2. ESTRUTURA DO PROJETO
+--------------------------------------------------------------------------------
+  grammar/SindarinLexer.g4     gramática léxica (sem ações Java: roda no ANTLR Lab)
+  grammar/SindarinParser.g4    gramática sintática (usa os tokens do lexer)
+  src/sindarin/
+    LeitorFonte.java           lê o arquivo: UTF-8 estrito, remove BOM inicial
+    Posicoes.java              índice -> (linha, coluna); CR, LF e CRLF contam como UMA quebra
+    SindarinLexerNfc.java      lexer gerado + reclassificação de palavras reservadas em NFC
+    Analisador.java            pipeline texto -> tokens -> árvore; mensagens de erro léxico
+    ErroSintaticoListener.java mensagens de erro sintático em português, com posição
+    ImpressorArvore.java       imprime a árvore do parser com recuo
+    Main.java                  linha de comando (tokens | parse | check)
+    TesteRunner.java           roda tests/ e compara esperado x observado
+    Diagnostico.java, ErroLeitura.java   tipos auxiliares
+  tests/                       1-lexer/{validos,invalidos}  2-parser/{validos,invalidos}
+  exemplos/                    ola.sind e o programa completo da seção 25
+  scripts/                     build/run/test (.sh e .bat)
+
+--------------------------------------------------------------------------------
+3. COMO GERAR E EXECUTAR
+--------------------------------------------------------------------------------
+Ver LEIA-ME.txt. Em resumo:  ./scripts/build.sh  e depois  ./scripts/run.sh check arquivo.sind
+Exemplo de saída do comando "tokens" (exemplos/ola.sind, trecho):
+
+    LIN:COL   TOKEN                  TEXTO
+    1:1       HARDWARE               gwaith
+    1:8       IN                     mi
+    3:5       SERIAL_BEGIN           minui_peth
+    3:16      INT_LITERAL            9600
+    6:10      SERIAL_PRINTLN         pedo_meth
+    6:20      STRING_LITERAL         "Ola"
+    7:10      DELAY                  aur_dîn
+    7:18      TIME_TYPE              aur
+
+Exemplo de erro (a posição é sempre linha:coluna, começando em 1):
+
+    teste.sind:7:23: erro léxico: numeral inválido '0b102': '2' não é dígito binário (use apenas 0 e 1)
+    teste.sind:7:32: erro sintático: token inesperado '{'; esperado: 'mi' — dica: todo bloco é introduzido por 'mi' ...
+
+--------------------------------------------------------------------------------
+4. ETAPA 1 - LEXER
+--------------------------------------------------------------------------------
+4.1 Palavras reservadas, operadores, delimitadores (seções 1 a 3 do .g4)
+    Mantidos como a dupla escreveu. Regras de funcionamento do ANTLR que explicam por que
+    funciona: (a) o ANTLR escolhe o MAIOR casamento, então "maer_an" ganha de "maer" e
+    "calad_gwath" ganha de "calad"; (b) em empate de tamanho vale a regra declarada primeiro,
+    por isso as reservadas vêm antes de ID. Cada palavra composta é um token indivisível.
+    "u", "hi", "aur_din", "vi", "garo" NÃO são reservadas: viram ID.
+
+4.2 Literais numéricos (seção 5.2 do enunciado)
+    INT_LITERAL    0 | [1-9][0-9]* | 0b[01]+ | 0x[0-9a-fA-F]+      (prefixos só minúsculos)
+    FLOAT_LITERAL  D '.' [0-9]+ [expoente]?  |  D expoente        D = 0 | [1-9][0-9]*
+    O sinal negativo é um operador separado (-2.5 = MINUS FLOAT_LITERAL).
+
+    Regra do "candidato completo": 0b102 não pode virar 0b10 + 2, 007 não pode virar 0 0 7,
+    2contador não pode virar número + identificador. Implementação sem código Java: a regra
+    INVALID_NUMBER casa o candidato inteiro (começa por dígito e engole letras, marcas,
+    dígitos, "_" e "."). Como o ANTLR usa o maior casamento, INVALID_NUMBER vence sempre que
+    o candidato é maior que o numeral válido; quando o numeral é válido há empate e a regra
+    válida (declarada antes) vence.
+    O sinal + ou - só entra no candidato logo depois de e/E quando tudo antes é [0-9.]
+    (1e+, 2.5e-2). Por isso 0xE+1 são 3 tokens (INT_LITERAL PLUS INT_LITERAL), como pede o PDF.
+
+4.3 Strings
+    STRING_LITERAL: aspas duplas, sem CR/LF/U+0000, escapes só \n \r \t \" \\.
+    INVALID_STRING casa a string defeituosa até o fim da linha. O código Java diz o MOTIVO
+    (sem aspas de fechamento, escape inexistente, U+0000) e aponta a posição certa: no
+    início da string (sem fechamento) ou na barra/NUL (escape/NUL). Não existe literal com
+    aspas simples: ' vira ERROR_CHAR.
+
+4.4 Identificadores
+    ID: [\p{L}_] [\p{L}\p{M}\p{Nd}_]*   (letra Unicode ou _; depois letras, MARCAS de acento,
+    dígitos Unicode ou _). RESERVED_IDENTIFIER (declarado antes de ID) rejeita nomes que
+    começam com dois sublinhados, que o enunciado reserva para a implementação.
+
+4.5 Espaços e comentários
+    Ignorados (skip): espaço, tab, CR, LF; // até o fim da linha; /* ... */ sem aninhamento.
+    Qualquer outro espaço Unicode (ex.: U+00A0) vira ERROR_CHAR (erro léxico), como pede o PDF.
+    UNTERMINATED_COMMENT casa um /* sem fechamento; a expressão só casa texto que NÃO contém
+    "*/", então um comentário bem fechado continua sendo BLOCK_COMMENT.
+    Aspas dentro de comentários não abrem string, e // ou /* dentro de string são texto
+    (testado em tests/1-lexer/validos/05).
+
+4.6 Última regra: ERROR_CHAR : . ;
+    Garante que um caractere inválido gere UM token de erro apontando só aquele caractere
+    (sem ela, o ANTLR juntaria o caractere ruim com o seguinte na mensagem).
+
+4.7 UTF-8, acentos e NFC (exigido na seção 23.1)
+    - O arquivo é lido como UTF-8 ESTRITO: byte inválido é erro de leitura (código de saída 2),
+      sem trocar nada por "?".
+    - Um BOM no início do arquivo é aceito e descartado (não conta como coluna); U+FEFF em
+      qualquer outro lugar é ERROR_CHAR.
+    - O texto NÃO é normalizado. Comentários e strings chegam exatamente como estão.
+    - Palavra reservada escrita em NFD (u + acento combinante) não casa com o literal do .g4,
+      que está em NFC. Mas a regra ID ACEITA marcas combinantes, então a palavra vira um ID.
+      A classe SindarinLexerNfc, a cada ID, normaliza o texto para NFC e consulta a tabela de
+      reservadas; se achar, TROCA O TIPO do token (o texto e a posição continuam os originais).
+      A tabela é montada a partir dos literais do próprio lexer gerado, então não fica
+      dessincronizada. Teste: tests/1-lexer/validos/02 (NFD) dá os mesmos tokens que o 01 (NFC).
+    - Dois identificadores iguais após NFC são o mesmo nome: SindarinLexerNfc.nfc(texto) está
+      disponível para a tabela de símbolos (Etapa 4) comparar nomes.
+
+4.8 Linha e coluna
+    O ANTLR só reconhece LF como quebra de linha. O enunciado manda contar CRLF, CR e LF como
+    UMA quebra e contar colunas em pontos de código. Por isso Posicoes.java calcula linha e
+    coluna a partir de Token.getStartIndex() (índice em pontos de código) e o projeto não usa
+    Token.getLine(). Testes 21 e 22 de tests/1-lexer/invalidos cobrem CR e CRLF.
+
+--------------------------------------------------------------------------------
+5. ETAPA 2 - PARSER
+--------------------------------------------------------------------------------
+5.1 Estrutura do programa (regra inicial: programa)
+      programa : blocoRecursos declaracaoGlobal* declaracaoFuncao* blocoSetup blocoLoop EOF
+    EOF é obrigatório: tokens depois do fechamento de cor são erro. Todo bloco é
+    "cabeçalho mi { ... }"; o mi aparece em gwaith, minui, cor, curu, maer_an, egor_mi,
+    curu_egor, curu_min, cor_maer, cor_pad e cor_nedia. No laço cor_caro o mi abre o corpo e
+    NÃO há mi antes da condição final: cor_caro mi { } cor_maer cond;
+
+5.2 Regras principais
+    declaracaoRecurso   tipoRecurso ID = ceber(N) | ceber_nen(N) [: expressao] ;
+    declaracaoConstante sador tipo ID = expressao ;
+    declaracaoVariavelGlobal  tipo ID [= expressao] ;       (inicializador opcional)
+    declaracaoVariavelLocal   tipo ID = expressao ;         (inicializador obrigatório)
+    declaracaoFuncao    curu tipo ID ( parametros? ) mi bloco   (procedimento = tipo pen)
+    tipo                inteiros com largura, nen, maer_peth, calad_gwath, peth, cen_min,
+                        aur / aur<hí>, pen e vetor [tipo; N]  (sem vetor aninhado)
+    comando             atribuição, ação (caro ...), minui_peth, condicional, seleção,
+                        cor_maer, cor_pad, cor_nedia, cor_caro, methed, cor_minui, dandol
+    acao                caro (pedo | pedo_meth | pedo_min | aur_dîn | an ID (caro_calad|caro_nen) | chamada) ;
+    condicional         maer_an expr [an nome] mi bloco [egor_mi mi bloco]   (forma de presença)
+    selecao             curu_egor expr mi { curu_min expr mi bloco ... [egor_mi mi bloco] }
+    lacoPara            cor_pad ( init? ; expr? ; atualizacao? ) mi bloco
+
+5.3 Precedência (da maior para a menor) - uma regra por nível, o nível mais baixo chama o mais alto
+      1  primário, chamada, acesso a vetor, parênteses     (primario)
+      2  û e - unários                (direita)             (expressaoUnaria)
+      3  *  /  %                      (esquerda)            (expressaoMultiplicativa)
+      4  +  -                         (esquerda)            (expressaoAditiva)
+      5  == != < <= > >=  mesmo nível, NÃO encadeiam        (expressaoRelacional)
+      6  a   (e lógico)               (esquerda)            (expressaoE)
+      7  egor (ou lógico)             (esquerda)            (expressaoOu)
+    O que impede "a < b < c" é o "?" (zero ou uma vez) em
+        expressaoRelacional : expressaoAditiva (operadorRelacional expressaoAditiva)?
+    Demonstração (nedia x = 10 + 5 * 2;): na árvore, 5 * 2 fica DENTRO de um mesmo
+    expressaoMultiplicativa, que é filho do "+":
+        expressaoAditiva
+          expressaoMultiplicativa -> 10
+          PLUS '+'
+          expressaoMultiplicativa -> 5  STAR '*'  2
+    Operações sobre bits (a_min<8>(x, y) etc.), conversões (nedia(x), nen(x)), aur(n, d),
+    cen_calad recurso e cen_nen recurso são "primarios".
+
+5.4 Regras do enunciado que o PARSER já faz cumprir
+    - atribuição é comando: "x = y = 1;" e "maer_an (x = 1) mi {}" são erros sintáticos;
+    - "caro" só existe em ações; "mostrar(5);" sem caro, "caro valor = 1;" e "caro (mostrar(3));" são erros;
+    - escrita na placa só na ordem  caro an recurso caro_calad|caro_nen expressao;
+    - methed e cor_minui não aceitam parênteses; não existe comando vazio ";";
+    - cor_pad exige os dois ";" mesmo com partes vazias; chamadas no cabeçalho são "caro nome(args)"
+      sem ";" final;
+    - curu_egor exige pelo menos um caso; egor_mi é opcional, único e último;
+    - declaração local sem inicializador é erro; global pode não ter.
+
+5.5 Decisões de interpretação (o PDF é ambíguo ou deixa em aberto - podem ser ajustadas)
+    a) Ordem no topo do arquivo: seguimos a forma normativa da seção 22 ("declaraçõesGlobais
+       funções"): TODAS as globais antes de TODAS as funções.
+    b) "pen" e as larguras (nedia<7>) são aceitos pelo PARSER em qualquer posição de tipo;
+       restringir onde cada tipo pode aparecer é semântica (o enunciado diz que as formas de
+       tipo são reconhecidas na sintaxe e o uso é restringido na semântica).
+    c) minui_peth taxa; é aceito como comando em qualquer bloco. Exigir que seja o 1º item de
+       minui e ocorrer uma única vez é verificação semântica (Etapa 4).
+    d) "[]" (lista vazia) é aceito no parser e rejeitado na semântica, como diz o PDF.
+    e) Pino/canal, largura, tamanho de vetor, taxa serial e os dois argumentos de aur(n, d)
+       são INT_LITERAL (numerais), nunca expressões.
+    f) Parâmetro pode ser tipo de dado OU tipo de recurso (parâmetro de capacidade: nen_caro saida).
+
+5.6 Fica para a semântica (Etapa 4), de propósito
+    Nomes declarados/duplicados, tipos e larguras permitidas, constância, pinos do Mega,
+    retorno por caminho, methed/cor_minui fora de laço, ordem inicial de minui, número de
+    elementos de vetor, tipo da condição, vetor sem tamanho, etc. "Passar no parser não torna o
+    programa válido" (seção 22 do enunciado).
+
+5.7 Mensagens de erro sintático
+    Português, com a posição do PRIMEIRO token que a gramática não aceitou, o que era esperado
+    e dicas para os enganos mais comuns (falta de "mi", falta de ";"). Para um ";" esquecido,
+    a posição é a do token seguinte (padrão do ANTLR). O ANTLR continua analisando depois do
+    primeiro erro e pode listar mais mensagens; no relatório de testes conta só a primeira
+    (seção 26.4 do enunciado: não contar mensagens em cascata como defeitos independentes).
+    Regra do pipeline: havendo erro léxico, o parser NÃO roda (evita cascata).
+
+5.8 Verificação de ambiguidades
+    Os 8 programas válidos foram analisados com DiagnosticErrorListener e modo
+    LL_EXACT_AMBIG_DETECTION: nenhuma ambiguidade reportada. Duas regras foram fatoradas
+    (acao -> "caro" + corpoAcao; atribuicao com indiceVetor?) para que o parser decida com 1
+    token e a mensagem "esperado: ..." fique correta.
+
+--------------------------------------------------------------------------------
+6. TESTES
+--------------------------------------------------------------------------------
+Cada arquivo .sind tem no topo "// @objetivo", "// @etapa", "// @esperado" (e "// @tokens"
+nos testes léxicos válidos). O executor compara esperado x observado. As linhas de cabeçalho
+contam nas posições. Resultado completo (com objetivo, esperado e observado de cada um):
+tests/resultados.txt
+
+  pasta                    qtde   o que cobre                              mínimo do enunciado
+  1-lexer/validos             9   NFC, NFD, aliases ASCII, numerais,         5 válidos
+                                  strings/comentários, identificadores,
+                                  operadores, BOM, tipos/recursos
+  1-lexer/invalidos          22   0b102, 0xFG, 0x, 007, 1.2.3, 2contador,     5 erros léxicos
+                                  string sem fechar, escape \q, comentário
+                                  sem fim, @, 1e+, 0XFF, .5, 5., U+00A0,
+                                  __x, !, ', U+0000, quebra na string, CR, CRLF
+  2-parser/validos            8   programa mínimo, seções 4/6.1.4/19.2/25     5 programas válidos
+                                  do PDF, expressões, bits, vetores, as 4
+                                  repetições, seleção, funções
+  2-parser/invalidos         26   os exemplos da seção 26.2 do PDF e mais     5 erros sintáticos
+                                  (25 sintáticos + 1 léxico que prova que
+                                  o parser não roda após erro léxico)
+  TOTAL                      65   resultado: 65 de 65 passaram
+
+Somando 22 léxicos + 25 sintáticos há 47 testes negativos (mínimo exigido: 10).
+Os programas válidos exploram: declarações, tipos, funções, procedimentos, condições,
+seleção múltipla, as quatro repetições, methed, cor_minui, vetores, recursos e expressões.
+
+Exemplos de resultado (trecho de tests/resultados.txt):
+  [PASSOU] tests/1-lexer/invalidos/04-zero-a-esquerda.sind
+      objetivo : 007: decimal com zero à esquerda é proibido (não vira 0 0 7)
+      esperado : ERRO-LEXICO 7:23
+      observado: ERRO-LEXICO 7:23  (numeral inválido '007': inteiros e parte inteira de reais
+                 não aceitam zeros à esquerda (escreva 7, não 007))
+  [PASSOU] tests/2-parser/invalidos/13-comparacao-encadeada.sind
+      esperado : ERRO-SINTATICO 7:25
+      observado: ERRO-SINTATICO 7:25  (token inesperado '<'; esperado: ';')
+
+Os valores "esperado" foram calculados à mão a partir do enunciado (coluna a coluna) ANTES de
+rodar; não foram copiados da saída do programa.
+
+--------------------------------------------------------------------------------
+7. PONTOS DE ATENÇÃO (LEIAM ANTES DE ENTREGAR)
+--------------------------------------------------------------------------------
+1) Capturas do ANTLR Lab: o enunciado pede evidências de inspeção das árvores no ANTLR Lab
+   (seção 23.2). Isso precisa ser feito por vocês: abrir https://lab.antlr.org, colar as duas
+   gramáticas, regra inicial "programa", colar um programa de tests/2-parser/validos e tirar
+   print da árvore. A gramática léxica não tem ações Java justamente para rodar no Lab.
+   Única diferença: palavras em NFD aparecem como ID no Lab (a reclassificação é código Java).
+2) Cabeçalho do SindarinLexer.g4: está escrito "Artur e Amanda". Confiram a grafia dos nomes
+   (o seu consta como Arthur) e ajustem se for o caso. Não alterei os nomes.
+3) "Luma Lexer": esse projeto não aparece no PDF e não tive acesso a ele. Segui o PDF e o
+   lexer da dupla. Se o professor espera algo específico do Luma (estrutura de pastas, nomes de
+   arquivos, formato de saída dos tokens), é fácil adaptar.
+4) Decisões 5.5(a) a 5.5(f) acima são interpretações. Se o professor esperar outra (por
+   exemplo, globais e funções intercaladas, ou "pen" rejeitado já no parser), a mudança é de
+   poucas linhas no SindarinParser.g4.
+5) Decisão extra no lexer: nomes iniciados por "__" são tratados como ERRO LÉXICO
+   (RESERVED_IDENTIFIER). O PDF diz que são "reservados para a implementação" sem dizer em
+   qual etapa. Se preferirem tratar na semântica, basta apagar a regra RESERVED_IDENTIFIER.
+6) Posição de erro de numeral: aponta o INÍCIO do candidato (ex.: 0b102 na coluna do "0"), com
+   o motivo na mensagem. Em string com escape ruim ou U+0000, aponta o caractere culpado.
+7) O relatório final (seção 23.8) pede registrar versões e instruções de reprodução sem
+   caminhos do seu computador: os scripts já usam caminhos relativos.
+8) O script scripts/test.bat foi ajustado para preservar e devolver o código de saída do TesteRunner (inclusive quando houver falha), exibindo tests\resultados.txt ao final. A execução do .bat ainda precisa ser conferida em Windows; nesta revisão, a validação foi feita no Linux com os scripts .sh.
+
+--------------------------------------------------------------------------------
+8. VERSÕES E AMBIENTE (execução de validação desta revisão)
+--------------------------------------------------------------------------------
+  Sistema da execução: Debian GNU/Linux (ambiente de revisão)
+  JDK:                 OpenJDK 21.0.12.1 (java e javac)
+  ANTLR tool:          ANTLR Parser Generator 4.13.2
+  ANTLR runtime:       antlr-4.13.2-complete.jar (mesmo JAR usado na geração e execução)
+  JAR utilizado:       lib/antlr-4.13.2-complete.jar (incluído no pacote)
+
+  Validação efetivamente executada nesta revisão:
+    1. bash scripts/build.sh
+       Resultado: código de saída 0; "Build OK -> build/classes".
+    2. bash scripts/test.sh
+       Resultado: código de saída 0; "RESUMO: 65 de 65 testes passaram."
+
+  A execução acima confirma a geração das gramáticas, a compilação Java e os 65 testes
+  automatizados no ambiente Linux descrito. Ela NÃO comprova a execução dos arquivos .bat
+  no Windows. Para validar no Windows, abra o PowerShell na pasta Sindarin e execute:
+       .\scripts\build.bat
+       .\scripts\test.bat
+  O test.bat foi corrigido para retornar o código de saída real do TesteRunner; essa
+  versão do script deve ser executada em Windows para confirmar também sua compatibilidade.
+
+  Para reproduzir em outra máquina, use o JDK e o mesmo ANTLR 4.13.2 na geração e no runtime.
+  Registre as versões efetivamente instaladas com:
+       java -version
+       javac -version
+       java -jar lib/antlr-4.13.2-complete.jar
+  Se o JAR não estiver presente, os scripts de build tentam baixá-lo do site oficial
+  do ANTLR na primeira execução (requer internet).
+
+  Compilação do código Arduino (Etapa 7): fora do escopo desta entrega.
+
+--------------------------------------------------------------------------------
+9. PRÓXIMAS ETAPAS (não fazem parte desta entrega)
+--------------------------------------------------------------------------------
+  Etapa 3  AST: o parser já tem alternativas rotuladas (#ComandoAcao, #PrimarioLiteral, ...) e
+           -visitor habilitado; a AST pode ser construída por um visitor.
+  Etapa 4  Semântica e tabela de símbolos (lista na seção 5.6 deste relatório).
+  Etapas 5 a 7  Representação, geração de código Arduino C++ e integração/compilação para
+           arduino:avr:mega.

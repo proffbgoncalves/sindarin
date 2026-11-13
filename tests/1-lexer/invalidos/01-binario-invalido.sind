@@ -1,0 +1,8 @@
+// @objetivo: 0b102 não pode virar 0b10 e 2: o candidato inteiro é rejeitado
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:23
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = 0b102;
+}

@@ -1,0 +1,8 @@
+// @objetivo: Escape \q não existe; o erro aponta a barra invertida
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:19
+gwaith mi {}
+minui mi {}
+cor mi {
+    caro pedo "Ola\q";
+}

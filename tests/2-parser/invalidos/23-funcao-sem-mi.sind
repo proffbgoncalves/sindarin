@@ -1,0 +1,9 @@
+// @objetivo: Função sem mi antes do corpo
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 5:20
+gwaith mi {}
+curu nedia somar() {
+    dandol 1;
+}
+minui mi {}
+cor mi {}

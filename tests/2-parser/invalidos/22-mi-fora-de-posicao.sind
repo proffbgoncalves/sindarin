@@ -1,0 +1,4 @@
+// @objetivo: mi minui {} : marcador mi antes do cabeçalho
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 4:14
+gwaith mi {} mi minui {} cor mi {}

@@ -1,0 +1,8 @@
+// @objetivo: Comparações não encadeiam: 1 < 2 < 3 é erro sintático
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:25
+gwaith mi {}
+minui mi {}
+cor mi {
+    maer_peth r = 1 < 2 < 3;
+}

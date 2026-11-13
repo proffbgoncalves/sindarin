@@ -1,0 +1,8 @@
+// @objetivo: Declaração local exige inicializador
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:20
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor;
+}

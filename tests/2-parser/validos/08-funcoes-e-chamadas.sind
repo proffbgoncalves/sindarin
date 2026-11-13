@@ -1,0 +1,35 @@
+// @objetivo: Funções, procedimentos, parâmetros de capacidade e vetoriais, retorno com/sem valor, chamadas com caro, em expressão e em cabeçalho de cor_pad
+// @etapa: parser
+// @esperado: OK
+gwaith mi {
+    nen_caro motor = ceber(3) : 0;
+}
+curu nedia_min somar(nedia_min primeiro, nedia_min segundo) mi {
+    dandol primeiro + segundo;
+}
+curu pen mostrar(nedia_min valor) mi {
+    caro pedo_meth valor;
+}
+curu pen preparar() mi { dandol; }
+curu maer_peth condicao() mi { dandol maer; }
+curu pen avancar() mi {}
+curu pen ajustar(nen_caro saida, nedia_min intensidade) mi {
+    caro an saida caro_nen intensidade;
+}
+curu nedia_min somarVetor([nedia_min; 3] v) mi {
+    dandol v[0] + v[1] + v[2];
+}
+curu [nedia_min; 3] dobrar([nedia_min; 3] v) mi {
+    dandol [v[0] * 2, v[1] * 2, v[2] * 2];
+}
+minui mi {
+    minui_peth 9600;
+    nedia_min resultado = somar(2, 3);
+    caro mostrar(resultado);
+    caro somar(2, 3);
+}
+cor mi {
+    cor_pad (caro preparar(); condicao(); caro avancar()) mi {
+        caro ajustar(motor, 128);
+    }
+}

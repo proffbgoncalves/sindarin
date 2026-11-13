@@ -1,0 +1,8 @@
+// @objetivo: methed não recebe parênteses nem argumentos
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:11
+gwaith mi {}
+minui mi {}
+cor mi {
+    methed();
+}

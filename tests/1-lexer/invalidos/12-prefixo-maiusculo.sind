@@ -1,0 +1,8 @@
+// @objetivo: 0XFF: os prefixos 0x/0b devem ser minúsculos
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:23
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = 0XFF;
+}

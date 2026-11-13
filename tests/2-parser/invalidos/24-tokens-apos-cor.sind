@@ -1,0 +1,5 @@
+// @objetivo: Tokens depois do fechamento de cor: o EOF é obrigatório
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 5:1
+gwaith mi {} minui mi {} cor mi {}
+nedia_min x = 1;

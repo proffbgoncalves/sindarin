@@ -1,0 +1,8 @@
+// @objetivo: 1.2.3 é um candidato único e inválido (não vira 1.2 e .3)
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:17
+gwaith mi {}
+minui mi {}
+cor mi {
+    nen valor = 1.2.3;
+}

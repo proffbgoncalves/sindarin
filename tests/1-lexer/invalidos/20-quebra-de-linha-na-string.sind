@@ -1,0 +1,9 @@
+// @objetivo: Quebra de linha física dentro de string: erro apontado no início da string
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:15
+gwaith mi {}
+minui mi {}
+cor mi {
+    caro pedo "Ola
+";
+}

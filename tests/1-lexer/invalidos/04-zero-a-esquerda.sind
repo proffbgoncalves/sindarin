@@ -1,0 +1,8 @@
+// @objetivo: 007: decimal com zero à esquerda é proibido (não vira 0 0 7)
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:23
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = 007;
+}

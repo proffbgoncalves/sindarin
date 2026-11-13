@@ -1,0 +1,8 @@
+// @objetivo: 0xFG: G não é dígito hexadecimal
+// @etapa: lexer
+// @esperado: ERRO-LEXICO 7:23
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = 0xFG;
+}

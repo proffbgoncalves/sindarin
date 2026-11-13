@@ -1,0 +1,47 @@
+// @objetivo: Programa completo da seção 25 do enunciado (recurso, constante, função, procedimento, vetor, cor_pad, seleção e as 4 repetições)
+// @etapa: parser
+// @esperado: OK
+gwaith mi { // Inicia as declarações de recursos da placa.
+  ceber_caro led = ceber(13) : gwath; // Saída 13, inicialmente baixa.
+} // Encerra as declarações de recursos.
+sador nedia_min limite = 3; // Constante sem sinal de 8 bits, com valor 3.
+curu nedia_min somar(nedia_min primeiro, nedia_min segundo) mi { // Recebe dois valores.
+  dandol primeiro + segundo; // Retorna a soma dos argumentos.
+} // Encerra a função somar.
+curu pen mostrar(nedia_min valor) mi { // Procedimento sem valor de retorno.
+  caro pedo_meth valor; // Imprime o número e uma quebra de linha LF.
+} // Encerra o procedimento mostrar.
+minui mi { // Executa uma vez, ao iniciar o programa.
+  minui_peth 9600; // Inicializa a comunicação serial a 9600 baud.
+} // Encerra a inicialização.
+cor mi { // Repete este bloco enquanto a placa estiver funcionando.
+  [nedia_min; 3] valores = [1, 2, 3]; // Cria um vetor com três elementos.
+  cor_pad (nedia_min indice = 0; // Inicializa o índice do laço em zero.
+    indice < limite; // Repete enquanto o índice for menor que 3.
+    indice = indice + 1) mi { // Incrementa após cada iteração.
+    maer_an indice == 1 mi { // Verifica se chegou ao segundo elemento.
+      cor_minui; // Pula o restante; segue para o incremento.
+    } // Encerra a condição.
+    caro mostrar(valores[indice]); // Imprime o elemento: 1 ou 3.
+  } // Encerra o laço de percurso do vetor.
+  nedia_min valor = somar(1, 1); // Chama somar e guarda o resultado 2.
+  curu_egor valor mi { // Seleciona um caso conforme o valor calculado.
+    curu_min 2 mi { // Executa este caso quando valor for igual a 2.
+      caro an led caro_calad calad; // Coloca a saída do LED em nível alto.
+    } // Encerra o caso; não passa para o próximo.
+    egor_mi mi { // Executaria se nenhum caso correspondesse.
+      caro an led caro_calad gwath; // Coloca a saída em nível baixo.
+    } // Encerra o caso padrão.
+  } // Encerra a seleção.
+  cor_caro mi { // Executa o corpo antes de testar a condição.
+    valor = valor - 1; // Reduz valor: primeiro para 1, depois 0.
+  } cor_maer valor > 0; // Repete somente enquanto valor for positivo.
+  cor_maer maer mi { // Inicia um laço cuja condição é sempre verdadeira.
+    caro mostrar(valor); // Imprime 0, que resultou do laço anterior.
+    methed; // Sai imediatamente deste laço.
+  } // Encerra o laço interrompido por methed.
+  cor_nedia 2 mi { // Executa o corpo exatamente duas vezes.
+    caro pedo_meth "Ola"; // Imprime Ola seguido de LF.
+  } // Encerra a repetição contada.
+  caro aur_dîn aur(1, 1); // Aguarda 1/1 segundo, isto é, 1000 ms.
+} // Encerra o ciclo; cor será executado novamente.

@@ -1,0 +1,8 @@
+// @objetivo: Declaração sem ; (o erro aparece no token seguinte, o })
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 8:1
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min contador = 1
+}

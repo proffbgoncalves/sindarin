@@ -1,0 +1,19 @@
+// @objetivo: nen: média (seção 6.1.4), literais reais, vetor de nen e conversões explícitas
+// @etapa: parser
+// @esperado: OK
+gwaith mi {}
+sador nen pi = 3.14159;
+curu nen media(nen primeiro, nen segundo) mi {
+    dandol (primeiro + segundo) / 2.0; // Divisão em ponto flutuante.
+}
+minui mi {
+    minui_peth 9600;
+    nen temperatura = media(21.5, 22.5); // Recebe 22.0.
+    caro pedo_meth temperatura;
+    [nen; 2] medidas = [1.5, 2.5e-2];
+    nedia truncado = nedia(-2.9);
+    nedia_min<16> pequeno = nedia_min<16>(255.9);
+    nen convertido = nen(2) + 1.5;
+    nen cientifico = 1e3 + 2.5E+2;
+}
+cor mi {}

@@ -1,0 +1,8 @@
+gwaith mi {}
+minui mi {
+    minui_peth 9600;
+}
+cor mi {
+    caro pedo_meth "Ola";
+    caro aur_dîn aur(1, 1);
+}

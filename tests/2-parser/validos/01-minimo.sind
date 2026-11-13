@@ -1,0 +1,6 @@
+// @objetivo: Programa mínimo: os três blocos vazios
+// @etapa: parser
+// @esperado: OK
+gwaith mi {}
+minui mi {}
+cor mi {}

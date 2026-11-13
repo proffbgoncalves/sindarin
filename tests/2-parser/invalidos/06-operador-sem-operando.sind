@@ -1,0 +1,8 @@
+// @objetivo: Operador + sem operando à direita
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:27
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = 1 + ;
+}

@@ -1,0 +1,8 @@
+// @objetivo: cor_caro ... cor_maer û_maer : falta o ; depois da condição final
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 8:1
+gwaith mi {}
+minui mi {}
+cor mi {
+    cor_caro mi {} cor_maer û_maer
+}

@@ -1,0 +1,8 @@
+// @objetivo: Erro léxico impede a etapa sintática: reporta só o erro léxico, sem cascata
+// @etapa: parser
+// @esperado: ERRO-LEXICO 7:23
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = 0b102;
+}

@@ -1,0 +1,8 @@
+// @objetivo: Parêntese aberto e não fechado
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:29
+gwaith mi {}
+minui mi {}
+cor mi {
+    nedia_min valor = (1 + 2;
+}

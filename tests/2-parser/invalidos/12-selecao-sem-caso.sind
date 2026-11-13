@@ -1,0 +1,8 @@
+// @objetivo: curu_egor exige pelo menos um curu_min
+// @etapa: parser
+// @esperado: ERRO-SINTATICO 7:21
+gwaith mi {}
+minui mi {}
+cor mi {
+    curu_egor 1 mi {}
+}
